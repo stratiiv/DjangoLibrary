@@ -4,26 +4,6 @@
 
 <div class="card mb-3 text-center" style='margin-top:250px;width:1200px;margin-left:auto;margin-right:auto;'>
     <div class="card-body">
-        <form method="GET" action="{% url 'filter-books' %}">
-            <div class="row">
-              <div class="col-5">
-                <input name='name' type="text" class="form-control" placeholder="Filter by Name">
-              </div>
-              <div class="col-5">
-                <select name='authors_list'class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                    <option selected>Choose author</option>
-                    {% for book in books %}
-                    {% for author in book.authors.all %}
-                    <option>{{author.name}} {{author.patronymic}} {{author.surname}}</option>
-                    {% endfor %}
-                    {% endfor %}
-                  </select>
-              </div>
-              <div class="col-2">
-                <button type="submit" class="btn btn-primary mb-2 ">Filter</button>
-              </div>
-            </div>
-          </form>
         <table class="table">
             <thead>
               <tr>
