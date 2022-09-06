@@ -16,9 +16,9 @@ def get_books_page(request):
                     if author.name +' '+ author.patronymic +' '+ author.surname == author_full:
                         books.append(book)
             return render(request,'book/books.html',{'books':books})
-                    
-    book_list=Book.objects.all()
-    return render(request,'book/books.html',{'books':book_list})
+    else:                
+        book_list=Book.objects.all()
+        return render(request,'book/books.html',{'books':book_list})
 @login_required
 def get_book_details(request,id):
     book=Book.objects.get(pk=id)

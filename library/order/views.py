@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from .models import Order
 from book.models import Book
 from django.contrib.auth.decorators import login_required
+from .forms import OrderForm
 @login_required
 def get_orders_page(request):
     if request.user.groups.all()[0].name=="Admin":
@@ -14,14 +15,18 @@ def get_orders_page(request):
 @login_required
 def get_create_order(request):
     if request.user.groups.all()[0].name=="Visitor":
-        books=Book.objects.all()
         if request.method=='POST':
-            book_name=request.POST.get('books_list')
-            book=Book.objects.get(name=book_name)
-            user=request.user
-            Order.create(user,book)
+            form=OrderForm(request.POST)
+            if form.is_valid():
+                order=form.save(commit=False)
+                order.user=request.user
+                order.save()
+            else:
+                print(form.errors)
             return redirect('orders')
-        return render(request,'order/create.html',{'books':books})
+        else:
+            form=OrderForm()
+            return render(request,'order/create.html',{'form':form})
     else:
         return redirect('login')
 

@@ -7,12 +7,7 @@
         <form class="form-signin" method='POST'>
             {% csrf_token %}
               <h1 class="h3 mb-3 font-weight-normal">Create order</h1>
-              <select name='books_list'class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose book</option>
-                {% for book in books %}
-                <option>{{book.name}}</option>
-                {% endfor %}
-              </select>
+              {{form}}
               <button type="submit" class="btn btn-primary mb-2">Create</button>
             </form>
     </div>
