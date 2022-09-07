@@ -43,6 +43,10 @@ def get_create_author(request):
     if request.user.groups.all()[0].name == "Admin":
         if request.method == 'POST':
             form = AuthorCreationForm(request.POST)
+            author = Author.objects.get(name=request.POST.get('name'))
+
+            if author is not None:
+                return render(request, 'author/dublicate_author.html')
 
             if form.is_valid():
                 form.save()
