@@ -36,8 +36,7 @@ def get_signup_page(request):
             return redirect('login')
     else:
         form = UserRegisterForm()
-
-    return render(request, 'authentication/signup.html', {'form': form})
+        return render(request, 'authentication/signup.html', {'form': form})
 
 
 def get_login_page(request):
