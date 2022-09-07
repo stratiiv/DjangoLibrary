@@ -2,7 +2,7 @@
 from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.core.exceptions import ObjectDoesNotExist
 from authentication.forms import AuthorCreationForm
 from .models import Author
 
@@ -43,19 +43,16 @@ def get_create_author(request):
     if request.user.groups.all()[0].name == "Admin":
         if request.method == 'POST':
             form = AuthorCreationForm(request.POST)
-            author = Author.objects.get(name=request.POST.get('name'))
-
-            if author is not None:
+            try:
+                Author.objects.get(name=request.POST.get('name'),surname=request.POST.get('surname'),patronymic=request.POST.get('patronymic'))
                 return render(request, 'author/dublicate_author.html')
-
-            if form.is_valid():
-                form.save()
-
-            return redirect('authors')
+            except ObjectDoesNotExist:
+                if form.is_valid():
+                    form.save()
+                    return redirect('authors')
         else:
             form = AuthorCreationForm()
-
-        return render(request, 'author/create.html', {'form': form})
+            return render(request, 'author/create.html', {'form': form})
     else:
         return redirect('login')
 

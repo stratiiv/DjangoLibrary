@@ -54,8 +54,7 @@ def get_login_page(request):
             return render(request, 'authentication/login_fail.html')
     else:
         form = AuthenticationForm()
-
-    return render(request, 'authentication/login.html', {'form': form})
+        return render(request, 'authentication/login.html', {'form': form})
 
 
 def get_signout_page(request):
