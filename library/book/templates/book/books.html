@@ -36,15 +36,25 @@
             </thead>
             <tbody>
                 {% for book in books %}
+                {% if book.authors.all %}
                 {% for author in book.authors.all %}
                 <tr>
                     <th>{{book.id}}</th>
                     <td><a href="{% url 'book-details' book.id %}">{{book.name}}</a></td>
                     <td>{{book.description}}</td>
-                    <td>{{author.name}} {{author.patronymic}} {{author.surname}} </td>
+                    <td>{{author.name}} {{author.patronymic}} {{author.surname}}</td>
                     <td>{{book.count}}</td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                <tr>
+                  <th>{{book.id}}</th>
+                  <td><a href="{% url 'book-details' book.id %}">{{book.name}}</a></td>
+                  <td>{{book.description}}</td>
+                  <td> No authors </td>
+                  <td>{{book.count}}</td>
+              </tr>
+                {% endif %}
                 {% endfor %}
             
             </tbody>
