@@ -1,34 +1,43 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from .models import Book
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from .forms import AddBookForm
+from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+def is_admin(user):
+    return user.groups.filter(name='Admin').exists()
+
 @login_required
-def get_books_page(request):        
-    book_list=Book.objects.all()
-    return render(request,'book/books.html',{'books':book_list})
-@login_required
-def get_book_details(request,id):
-    book=Book.objects.get(pk=id)
-    author=book.authors.all()[0]
-    return render(request,'book/book_details.html',{'this_book':book,'this_book_author':author})
+def get_book_list(request):
+    queryset=Book.objects.all()
+    return render(request,'book/book_list.html',{'book_list':queryset,'all_books':queryset})
+# @login_required
+# def get_book_details(request,id):
+#     book=Book.objects.get(pk=id)
+#     author=book.authors.all()[0]
+#     return render(request,'book/book_details.html',{'this_book':book,'this_book_author':author})
 
 @login_required
 def get_filtered_books(request):
     name=request.GET.get('name')
     author_full=request.GET.get('authors_list')
-    if name!='':
-        return render(request,'book/books.html',{'books':Book.objects.filter(name=name)})
+    book_list=[]
+    if not name and author_full=='Choose author':
+        return redirect('books')
+    elif name!='':
+        return render(request,'book/book_list.html',{'book_list':Book.objects.filter(name=name),'all_books':Book.objects.all()})
     elif author_full!='Choose author':
-        books=[]
         for book in Book.objects.all():
             for author in book.authors.all():
-                if author.name +' '+ author.patronymic +' '+ author.surname == author_full:
-                    books.append(book)
-    return render(request,'book/filtered.html',{'books':books})     
+                if str(author) == author_full:
+                    book_list.append(book)
+    return render(request,'book/book_list.html',{'book_list':book_list,'all_books':Book.objects.all()})     
+
 @login_required
+@user_passes_test(is_admin)
 def get_add_book(request):
-    if request.user.groups.all()[0].name == "Admin":
         if request.method=='POST':
             form=AddBookForm(request.POST)
             if form.is_valid():
@@ -37,7 +46,10 @@ def get_add_book(request):
         else:
             form=AddBookForm()
             return render(request,'book/add.html',{'form':form})
-    else:
-        return redirect('login')
 
-    
+
+class BookListView(LoginRequiredMixin,generic.ListView):
+    model = Book
+class BookDetailView(LoginRequiredMixin,generic.DetailView):
+    model=Book
+    context_object_name = 'book'

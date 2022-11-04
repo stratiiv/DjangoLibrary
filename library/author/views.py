@@ -3,8 +3,9 @@ from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from authentication.forms import AuthorCreationForm
 from .models import Author
+from .forms import AuthorCreationForm
+
 
 
 def get_authors_data():

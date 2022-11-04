@@ -29,10 +29,8 @@ class Author(models.Model):
         Magic method is redefined to show all information about Author.
         :return: author id, author name, author surname, author patronymic
         """
-        # return ",".join([a for a in dir(self) if not a.startswith('__')])
-        # return str(self.__dict__)
-        return f"\'id\': {self.pk}, \'name\': \'{self.name}\'," \
-               f" \'surname\': \'{self.surname}\', \'patronymic\': \'{self.patronymic}\'"
+
+        return f'{self.name} {self.patronymic} {self.surname}'
 
     def __repr__(self):
         """

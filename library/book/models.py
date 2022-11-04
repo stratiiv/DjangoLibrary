@@ -144,3 +144,9 @@ class Book(models.Model):
         returns data for json request with QuerySet of all books
         """
         return list(Book.objects.all())
+    
+    def get_authors(self):
+        output=''
+        for author in self.authors.all():
+            output+=str(author)+', '
+        return output[:-2]

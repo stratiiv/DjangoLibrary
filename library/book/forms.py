@@ -1,9 +1,8 @@
-from django.forms import ModelForm,SelectMultiple,ModelMultipleChoiceField
+from django import forms
 from .models import Book
 from author.models import Author
 
-class AddBookForm(ModelForm):
-    # authors=ModelMultipleChoiceField(queryset=Author.objects.all(),widget=SelectMultiple(),label='Select authors')
+class AddBookForm(forms.ModelForm):
     class Meta:
         model=Book
         fields=('name','description','count')

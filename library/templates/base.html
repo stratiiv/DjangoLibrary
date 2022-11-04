@@ -24,7 +24,7 @@
                   </svg> {{user.first_name}} {% else %} Authorization {% endif %}
                 </a>
                 <ul class="dropdown-menu">
-                  {% if user.is_authenticated %} <li><a class="dropdown-item" href="{% url 'sign-out' %}">Log out</a></li>
+                  {% if user.is_authenticated %} <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
                   {% else %} 
                   <li><a class="dropdown-item" href="{% url 'login' %}">Sign in</a></li>
                   <li><a class="dropdown-item" href="{% url 'sign-up' %}">Sign up</a></li>
