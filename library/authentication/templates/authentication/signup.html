@@ -4,10 +4,7 @@
   <form class="form-signin" method='POST'>
     {% csrf_token %}
     <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
-    {% for f in form %}
-    <p><label class="sr-only" for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</p>
-    <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
+    {{form.as_p}}
     <div class="checkbox mb-3">
       <label>
         <input name='as_admin' type="checkbox" value="as-admin"> As admin

@@ -13,11 +13,6 @@ def is_admin(user):
 def get_book_list(request):
     queryset=Book.objects.all()
     return render(request,'book/book_list.html',{'book_list':queryset,'all_books':queryset})
-# @login_required
-# def get_book_details(request,id):
-#     book=Book.objects.get(pk=id)
-#     author=book.authors.all()[0]
-#     return render(request,'book/book_details.html',{'this_book':book,'this_book_author':author})
 
 @login_required
 def get_filtered_books(request):
@@ -38,18 +33,16 @@ def get_filtered_books(request):
 @login_required
 @user_passes_test(is_admin)
 def get_add_book(request):
-        if request.method=='POST':
-            form=AddBookForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('books')
-        else:
-            form=AddBookForm()
-            return render(request,'book/add.html',{'form':form})
+    if request.method=='POST':
+        form=AddBookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('books')   
+    else:
+        form=AddBookForm()
+    return render(request,'book/add_book.html',{'form':form})
 
 
-class BookListView(LoginRequiredMixin,generic.ListView):
-    model = Book
 class BookDetailView(LoginRequiredMixin,generic.DetailView):
     model=Book
     context_object_name = 'book'

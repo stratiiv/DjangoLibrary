@@ -16,27 +16,14 @@
             </thead>
             <tbody>
                 {% for book in book_list %}
-                {% if book.authors.all %}
-                {% for author in book.authors.all %}
                 <tr>
                     <th>{{book.id}}</th>
                     <td><a href="{% url 'book-details' book.id %}">{{book.name}}</a></td>
                     <td>{{book.description}}</td>
-                    <td>{{book.get_authors}}</td>
+                    <td>{% if book.get_authors %} {{book.get_authors}} {% else %} No authors {% endif %} </td>
                     <td>{{book.count}}</td>
                 </tr>
                 {% endfor %}
-                {% else %}
-                <tr>
-                  <th>{{book.id}}</th>
-                  <td><a href="{% url 'book-details' book.id %}">{{book.name}}</a></td>
-                  <td>{{book.description}}</td>
-                  <td> No authors </td>
-                  <td>{{book.count}}</td>
-              </tr>
-                {% endif %}
-                {% endfor %}
-            
             </tbody>
           </table>
         </div>

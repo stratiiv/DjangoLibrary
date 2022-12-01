@@ -11,12 +11,12 @@
                 <th scope="col">User</th>
                 <th scope="col">Created at</th>
                 <th scope="col">End at</th>
-                <th scope="col">Plated end at</th>
+                <th scope="col">Expected end at</th>
                 <th scope="col">Close</th>
               </tr>
             </thead>
             <tbody>
-                {% for order in orders %}
+                {% for order in order_list %}
                 <tr>
                     <th>{{order.id}}</th>
                     <td>{{order.book.name}}</a></td>

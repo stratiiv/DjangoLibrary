@@ -1,12 +1,8 @@
-from django.db import models, DataError, IntegrityError
+from django.db import models
 import django
-
-from authentication.models import CustomUser
-from author.models import Author
 from book.models import Book
 from django.contrib.auth.models import User
 import django.utils
-from authentication.models import CustomUser
 import datetime
 
 
@@ -29,30 +25,8 @@ class Order(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
-    end_at = models.DateTimeField(default=None, null=True, blank=True)
+    end_at = models.DateTimeField(blank=True)
     plated_end_at = models.DateTimeField(default=django.utils.timezone.now()+datetime.timedelta(weeks=2))
-
-
-
-    def __str__(self):
-        """
-        Magic method is redefined to show all information about Book.
-        :return: book id, book name, book description, book count, book authors
-        """
-        if self.end_at == None:
-            return f"\'id\': {self.pk}, " \
-                    f"\'user\': CustomUser(id={self.user.pk})," \
-                    f" \'book\': Book(id={self.book.pk})," \
-                   f" \'created_at\': \'{self.created_at}\',"\
-                   f" \'end_at\': {self.end_at}," \
-                   f" \'plated_end_at\': \'{self.plated_end_at}\'"
-        else:
-            return f"\'id\': {self.pk}, " \
-                   f"\'user\': CustomUser(id={self.user.pk})," \
-                   f" \'book\': Book(id={self.book.pk})," \
-                   f" \'created_at\': \'{self.created_at}\'," \
-                   f" \'end_at\': \'{self.end_at}\'," \
-                   f" \'plated_end_at\': \'{self.plated_end_at}\'"
 
     def __repr__(self):
         """
@@ -61,67 +35,19 @@ class Order(models.Model):
         """
         return f'{self.__class__.__name__}(id={self.id})'
 
-    def to_dict(self):
+    def __str__(self):
         """
-                :return: order id, book id, user id, order created_at, order end_at, order plated_end_at
-                :Example:
-                | {
-                |   'id': 8,
-                |   'book': 8,
-                |   'user': 8',
-                |   'created_at': 1509393504,
-                |   'end_at': 1509393504,
-                |   'plated_end_at': 1509402866,
-                | }
-                """
-        pass
-
-    @staticmethod
-    def create(user, book):
-        try:
-            a = Order(user=user, book=book)
-            if book.count < 10:
-                raise Exception
-        except:
-            return None
-        else:
-            a.save()
-            return a
-
-
-    @staticmethod
-    def get_by_id(order_id):
-        try:
-            return Order.objects.get(pk=order_id)
-        except:
-            return None
-
-
-    def update(self, plated_end_at=None, end_at=None):
-        if plated_end_at != None:
-            self.plated_end_at = plated_end_at
-        if end_at != None:
-            self.end_at = end_at
-        self.save()
-
-    @staticmethod
-    def get_all():
-        return list(Order.objects.all())
-
-    @staticmethod
-    def get_not_returned_books():
-        l = []
-        for ord in Order.get_all():
-            if ord.end_at == None:
-                l.append(ord)
-        return l
-
+        Magic method is redefined to show all information about Book.
+        :return: book id, book name, book description, book count, book authors
+        """
+        return f'Order #{self.id}'
+    
     @staticmethod
     def delete_by_id(order_id):
         try:
-            a = Order.objects.get(pk=order_id)
+            order = Order.objects.get(pk=order_id)
         except:
             return False
         else:
-            a.delete()
+            order.delete()
             return True
