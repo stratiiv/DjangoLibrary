@@ -25,7 +25,17 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-ALLOWED_HOSTS = []
+
+## (replace the string below with your own site URL):
+ALLOWED_HOSTS = ['https://web-production-fea3.up.railway.app', '127.0.0.1']
+# During development, you can instead set just the base URL
+# (you might decide to change the site a few times).
+# ALLOWED_HOSTS = ['.railway.com','127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS = ['https://web-production-fea3.up.railway.app']
+# During development/for this tutorial you can instead set just the base URL
+# CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
+
 LOGIN_URL='/login'
 
 # Application definition
