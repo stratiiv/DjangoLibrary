@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -90,7 +91,7 @@ DATABASE = "simpledbmamager"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'postgres2',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
@@ -136,6 +137,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Logger required settings.
 
 LOGGING = {
@@ -162,7 +164,18 @@ LOGGING = {
         },
     },
 }
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+
+# Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
+# Simplified static file serving.
+# https://pypi.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     pass
