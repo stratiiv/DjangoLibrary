@@ -1,1 +1,1 @@
-web: python library/manage.py migrate && gunicorn library.wsgi
+web: python manage.py migrate && gunicorn library.wsgi
