@@ -25,7 +25,7 @@ class Order(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
-    end_at = models.DateTimeField(blank=True)
+    end_at = models.DateTimeField(blank=True,null=True)
     expected_end_at = models.DateTimeField(default=django.utils.timezone.now()+datetime.timedelta(weeks=2))
 
     def __repr__(self):
