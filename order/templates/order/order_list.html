@@ -23,7 +23,7 @@
                     <td>{{order.user.username}}</td>
                     <td>{{order.created_at}} </td>
                     <td>{{order.end_at}}</td>
-                    <td>{{order.plated_end_at}}</td>
+                    <td>{{order.expected_end_at}}</td>
                     <td><a href="{% url 'close-order' order.id %}">Delete</a></td>
                 </tr>
                 {% endfor %}
