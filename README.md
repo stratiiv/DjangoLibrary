@@ -1,4 +1,5 @@
 # Django_Library
+**Deployed on https://stratiiv.up.railway.app/**
 
 The website represents basic library functionality: 
   - any visitor can sign up
