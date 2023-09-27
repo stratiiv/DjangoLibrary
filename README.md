@@ -49,4 +49,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-ImageAPI is open source and released under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for more details.
+DjangoLibrary is open source and released under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for more details.
